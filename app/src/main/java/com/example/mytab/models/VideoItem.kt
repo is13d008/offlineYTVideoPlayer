@@ -1,14 +1,10 @@
 package com.example.mytab.models
 
 import com.google.gson.annotations.SerializedName
-import java.util.Date
 
-class VideoItem {
-    var title: String = ""
-    var description: String = ""
-    var channelId: String = ""
-    var channelTitle: String = ""
-    var thumbnails: String = ""
-
-
-}
+data class VideoItem (
+    @SerializedName("kind") var kind : String? = null,
+    @SerializedName("etag") var etag : String? = null,
+    @SerializedName("videoId") var videoId : String? = null,
+    @SerializedName("snippet") var snippet: Snippet? = null
+)

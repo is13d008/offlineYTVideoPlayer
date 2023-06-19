@@ -11,6 +11,7 @@ class MainApplication : Application() {
     companion object {
 
         var retrofit : Retrofit? = null
+//        var retrofitSuggest : Retrofit? = null
 
     }
 
@@ -24,10 +25,20 @@ class MainApplication : Application() {
             .addInterceptor(logging)
             .build()
 
-        retrofit = Retrofit.Builder().baseUrl("https://www.googleapis.com/youtube/")
-            .addConverterFactory(GsonConverterFactory.create())
-            .client(client)
-            .build()
+//        retrofit = Retrofit.Builder().baseUrl("https://www.googleapis.com/youtube/")
+//            .addConverterFactory(GsonConverterFactory.create())
+//            .client(client)
+//            .build()
+
+        retrofit = Retrofit.Builder().baseUrl("https://suggestqueries.google.com/")
+                    .addConverterFactory(GsonConverterFactory.create())
+                    .client(client)
+                    .build()
+
+//        retrofitSuggest = Retrofit.Builder().baseUrl("http://suggestqueries.google.com/")
+//            .addConverterFactory(GsonConverterFactory.create())
+//            .client(client)
+//            .build()
 
     }
 
@@ -36,3 +47,7 @@ class MainApplication : Application() {
 val retrofit : Retrofit by lazy {
     MainApplication.retrofit!!
 }
+
+//val retrofitSuggest : Retrofit by lazy {
+//    MainApplication.retrofitSuggest!!
+//}

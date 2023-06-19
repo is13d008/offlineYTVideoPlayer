@@ -17,14 +17,16 @@
 
         >
 
-        <SearchView
-            android:id="@+id/searchView"
+        <androidx.appcompat.widget.SearchView
+            android:id="@+id/search_name"
             android:layout_width="match_parent"
             android:layout_height="60dp"
+            android:background="@drawable/back"
             android:queryHint="Search here ..."
             />
 
         <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerNameView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="60dp"
