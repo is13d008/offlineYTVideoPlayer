@@ -11,6 +11,8 @@ import com.example.mytab.models.Snippet
 
 class SearchAdapter(var snList: List<SearchData>) : RecyclerView.Adapter<SearchAdapter.SearchViewHolder>() {
 
+    var onItemClick : ((Food) -> Unit)? = null
+
     fun setFilteredList(snList: List<SearchData>) {
         this.snList = snList
         notifyDataSetChanged()
@@ -24,6 +26,10 @@ class SearchAdapter(var snList: List<SearchData>) : RecyclerView.Adapter<SearchA
 
     override fun onBindViewHolder(holder: SearchViewHolder, position: Int) {
         holder.name.text = snList[position].searchName
+
+        holder.itemView.setOnClickListener {
+
+        }
     }
 
     override fun getItemCount(): Int {

@@ -82,7 +82,6 @@ class SearchFragment : AbstractListFragment() {
             
         })
 
-        println("XOXO")
 //        service.getAllVideos("AIzaSyBji_w43hXD4qOPYxxP18IWa-DzdMHbuDk", "joji", "video", "snippet").enqueue(object : Callback<ApiResponse> {
 //            override fun onResponse(call: Call<ApiResponse>, response: Response<ApiResponse>) {
 //                println("XOXO 1")
