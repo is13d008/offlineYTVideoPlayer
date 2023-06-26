@@ -40,6 +40,4 @@ class FragmentAdapter(fragmentManager: FragmentManager) : FragmentStatePagerAdap
         return super.getPageTitle(position)
     }
 
-
-
 }

@@ -13,7 +13,8 @@ class MainApplication : Application() {
         var retrofit : Retrofit? = null
         var retrofitYTList : Retrofit? = null
 
-//        var retrofitSuggest : Retrofit? = null
+        val SINGER_NAME = "searchName"
+        val VIDEO_DATA = "items"
 
     }
 
@@ -50,7 +51,3 @@ val retrofit : Retrofit by lazy {
 val retrofitYTList : Retrofit by lazy {
     MainApplication.retrofitYTList!!
 }
-
-// val retrofitSuggest : Retrofit by lazy {
-//    MainApplication.retrofitSuggest!!
-//}

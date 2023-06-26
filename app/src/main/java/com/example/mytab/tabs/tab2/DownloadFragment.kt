@@ -30,29 +30,6 @@ class DownloadFragment : AbstractListFragment() {
     override fun onCreateView( inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         mainView = inflater.inflate(R.layout.fragment_download, container, false)
 
-        recyclerView = mainView.findViewById(R.id.download_recycler_view)
-
-        Log.d(ContentValues.TAG, "onCreateView: started");
-
-        val service = retrofitYTList.create(ServiceInterface::class.java)
-
-        recyclerView.setHasFixedSize(true)
-        recyclerView.layoutManager = LinearLayoutManager(requireActivity())
-
-        adapter = YoutubeAdapter(dwnList)
-        recyclerView.adapter = adapter
-
-        service.getAllVideos("AIzaSyBji_w43hXD4qOPYxxP18IWa-DzdMHbuDk", "jj lin", "video", "snippet").enqueue(object : Callback<ApiResponse> {
-            override fun onResponse(call: Call<ApiResponse>, response: Response<ApiResponse>) {
-                println("XOXO 1")
-                println(response.body())
-            }
-
-            override fun onFailure(call: Call<ApiResponse>, t: Throwable) {
-                println("XOXO 2")
-
-            }
-        })
 
         return mainView
     }

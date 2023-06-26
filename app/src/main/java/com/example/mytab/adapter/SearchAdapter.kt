@@ -6,12 +6,13 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.mytab.R
+import com.example.mytab.interfaces.SearchListener
+import com.example.mytab.models.ApiResponse
 import com.example.mytab.models.SearchData
-import com.example.mytab.models.Snippet
 
-class SearchAdapter(var snList: List<SearchData>) : RecyclerView.Adapter<SearchAdapter.SearchViewHolder>() {
+class SearchAdapter(var snList: List<SearchData> , val listener : SearchListener) : RecyclerView.Adapter<SearchAdapter.SearchViewHolder>() {
 
-    var onItemClick : ((Food) -> Unit)? = null
+    var onItemClick : ((ApiResponse) -> Unit)? = null
 
     fun setFilteredList(snList: List<SearchData>) {
         this.snList = snList
@@ -28,6 +29,8 @@ class SearchAdapter(var snList: List<SearchData>) : RecyclerView.Adapter<SearchA
         holder.name.text = snList[position].searchName
 
         holder.itemView.setOnClickListener {
+
+            listener.clickAtPosition(position,snList[position])
 
         }
     }

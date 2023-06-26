@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".tabs.PlayerActivity"
+    >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="350dp"
+        android:id="@+id/yt_player_view"
+        android:orientation="horizontal">
+
+
+        <com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView
+            android:id="@+id/youTubePlayerView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:ignore="MissingClass">
+
+        </com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/button_lines"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginTop="350dp"
+        android:orientation="horizontal" >
+
+        <Button
+            android:id="@+id/download_btn"
+            android:layout_width="160dp"
+            android:layout_height="match_parent"
+            android:text="Download video"
+             />
+
+    </LinearLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/sub_yt_recycler_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="390dp"
+        >
+
+    </androidx.recyclerview.widget.RecyclerView>
+
+</FrameLayout>

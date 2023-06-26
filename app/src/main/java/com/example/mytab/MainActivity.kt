@@ -2,7 +2,6 @@ package com.example.mytab
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager.widget.ViewPager
 import com.example.mytab.adapter.FragmentAdapter
 import com.google.android.material.tabs.TabLayout
@@ -21,11 +20,6 @@ class MainActivity : AppCompatActivity() {
         viewPager = findViewById(R.id.viewPager)
 
         adapter = FragmentAdapter(supportFragmentManager)
-
-//        tabLayout.addTab(tabLayout.newTab().setText("Search").setIcon(R.drawable.baseline_search_24))
-//        tabLayout.addTab(tabLayout.newTab().setText("Downloads").setIcon(R.drawable.baseline_download_24))
-//        tabLayout.addTab(tabLayout.newTab().setText("Playlists").setIcon(R.drawable.baseline_playlist_play_24))
-//        tabLayout.addTab(tabLayout.newTab().setText("Settings").setIcon(R.drawable.baseline_settings_24))
 
         viewPager.adapter = adapter
         tabLayout.setupWithViewPager(viewPager)

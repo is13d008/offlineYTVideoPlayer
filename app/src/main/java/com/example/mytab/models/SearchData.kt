@@ -1,5 +1,5 @@
 package com.example.mytab.models
 
-import com.google.gson.annotations.SerializedName
+import java.io.Serializable
 
-class SearchData(val searchName: String )
+class SearchData(val searchName: String ) : Serializable
