@@ -2,4 +2,8 @@
     <string name="app_name">myTab</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="dialogTitle">Clicked button </string>
+    <string name="dialogMessage">Saved data to shared_preference</string>
+    <string name="close">Close</string>
+    <string name="videoData">videoData</string>
 </resources>

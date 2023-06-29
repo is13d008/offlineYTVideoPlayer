@@ -50,9 +50,8 @@ class YoutubeAdapter(var ytList: List<VideoItem>, val listener: YoutubeListener)
         holder.dateItem.setText(ytList.get(position).snippet!!.publishedAt!!)
 
         holder.itemView.setOnClickListener {
-//            listener.clickAtPosition(position, ytList[position], searchN[position]!!.searchName!!)
-
-            println("SetOnClickListener deerh damjij bui utguud" + ytList[position] + position)
+            listener.clickAtPosition(position, ytList[position])
+//            println("SetOnClickListener deerh damjij bui utguud" + ytList[position] + position)
         }
     }
 

@@ -57,13 +57,14 @@ class YoutubeListActivity : AppCompatActivity() {
 
 
         adapter = YoutubeAdapter(ytList, object : YoutubeListener{
-            override fun clickAtPosition(position: Int, data: VideoItem, chosenName: SearchData) {
+            override fun clickAtPosition(position: Int, data: VideoItem) {
 
-                println("videoIDD" + chosenName + "Data-> " + data)
+                println("videoIDD"  + "Data-> " + data)
 
                 val intent = Intent(this@YoutubeListActivity, PlayerActivity::class.java)
                 val bundle = Bundle()
                 bundle.putSerializable(VIDEO_DATA,data)
+                bundle.putString("KEY","qwerty")
                 intent.putExtras(bundle)
                 startActivity(intent)
 
