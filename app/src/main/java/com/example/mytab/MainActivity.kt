@@ -1,12 +1,17 @@
 package com.example.mytab
 
-import androidx.appcompat.app.AppCompatActivity
+import android.content.Context
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
 import androidx.viewpager.widget.ViewPager
+import com.example.mytab.abstracts.AbstractActivity
 import com.example.mytab.adapter.FragmentAdapter
+import com.example.mytab.models.VideoItem
 import com.google.android.material.tabs.TabLayout
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AbstractActivity() {
 
     private lateinit var tabLayout: TabLayout
     private lateinit var viewPager: ViewPager
@@ -15,6 +20,11 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        val json = MainApplication.sharePreference!!.getString("dwn_videos", "[]")
+
+        val myType = object : TypeToken<ArrayList<VideoItem>>() {}.type
+        MainApplication.downloadList = Gson().fromJson(json, myType)
 
         tabLayout = findViewById(R.id.tabLayout)
         viewPager = findViewById(R.id.viewPager)

@@ -10,6 +10,7 @@ import com.example.mytab.R
 import com.example.mytab.interfaces.YoutubeListener
 import com.example.mytab.models.SearchData
 import com.example.mytab.models.VideoItem
+import com.example.mytab.tabs.YoutubeListActivity
 import com.squareup.picasso.Picasso
 
 class YoutubeAdapter(var ytList: List<VideoItem>, val listener: YoutubeListener) : RecyclerView.Adapter<YoutubeAdapter.YoutubeViewHolder<VideoItem>>() {

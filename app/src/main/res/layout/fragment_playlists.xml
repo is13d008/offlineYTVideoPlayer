@@ -7,12 +7,28 @@
     tools:context=".tabs.tab3.PlaylistsFragment">
 
     <!-- TODO: Update blank fragment layout -->
-    <TextView
+
+    <LinearLayout
+        android:id="@+id/playlist_linear"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:textAlignment="center"
-        android:gravity="center"
-        android:textColor="@color/white"
-        android:text="Hello Playlist Fragment" />
+        android:layout_height="723dp"
+        android:orientation="vertical">
+
+        <Button
+            android:id="@+id/create_list_btn"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:text="Create new playlist"
+
+            />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/playlist_recyclerview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+        </androidx.recyclerview.widget.RecyclerView>
+
+    </LinearLayout>
 
 </FrameLayout>

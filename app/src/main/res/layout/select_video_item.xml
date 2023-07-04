@@ -17,10 +17,10 @@
         android:weightSum="100"
         android:orientation="horizontal">
 
-        n  <ImageView
-            android:id="@+id/song_image"
+        <ImageView
+            android:id="@+id/playl_image"
             android:layout_width="0dp"
-            android:layout_height="200dp"
+            android:layout_height="140dp"
             android:layout_weight="40"
             android:layout_marginVertical="5dp"
             android:scaleType="centerCrop"
@@ -29,7 +29,7 @@
             app:layout_constraintTop_toTopOf="parent"/>
 
         <LinearLayout
-            android:id="@+id/video_content"
+            android:id="@+id/song_content"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="60"
@@ -37,7 +37,7 @@
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/singer"
+                android:id="@+id/playl_singer"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Hello World!"
@@ -46,7 +46,7 @@
                 android:textStyle="bold" />
 
             <TextView
-                android:id="@+id/song_description"
+                android:id="@+id/playl_description"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Description"
@@ -55,21 +55,22 @@
                 android:textSize="14sp" />
 
             <TextView
-                android:id="@+id/video_source"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="source"
-                android:textColor="@color/grey"
-                android:textSize="14sp" />
-
-            <TextView
-                android:id="@+id/video_date"
+                android:id="@+id/playl_date"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Date"
                 android:textColor="@color/grey"
                 android:textSize="14sp" />
         </LinearLayout>
+
+
+        <CheckBox
+            android:id="@+id/song_check"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            ></CheckBox>
+
 
     </LinearLayout>
 

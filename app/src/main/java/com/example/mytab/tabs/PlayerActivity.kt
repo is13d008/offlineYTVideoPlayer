@@ -1,26 +1,24 @@
 package com.example.mytab.tabs
 
+
 import android.content.ContentValues
-import android.content.Context
 import android.os.Bundle
 import android.util.Log
-import android.view.View
 import android.view.Window
 import android.view.WindowManager
 import android.widget.Button
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
-import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.mytab.MainApplication
 import com.example.mytab.MainApplication.Companion.VIDEO_DATA
 import com.example.mytab.R
+import com.example.mytab.abstracts.AbstractActivity
 import com.example.mytab.adapter.YoutubeAdapter
-import com.example.mytab.interfaces.YoutubeListener
 import com.example.mytab.models.ApiResponse
 import com.example.mytab.models.SearchData
 import com.example.mytab.models.VideoItem
-import com.example.mytab.models.videoId
 import com.example.mytab.retrofitYTList
 import com.example.mytab.services.ServiceInterface
 import com.google.gson.Gson
@@ -31,11 +29,8 @@ import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTube
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import android.content.Context.MODE_PRIVATE
-import android.content.SharedPreferences
-import com.example.mytab.adapter.DownloadAdapter
 
-class PlayerActivity : AppCompatActivity() , YouTubePlayerListener{
+class PlayerActivity : AbstractActivity() , YouTubePlayerListener{
 
     lateinit var recyclerView: RecyclerView
     lateinit var youtubePlayerView: YouTubePlayerView
@@ -45,7 +40,6 @@ class PlayerActivity : AppCompatActivity() , YouTubePlayerListener{
     var ytList = ArrayList<VideoItem>()
     var youTubePlayer : YouTubePlayer? = null
     lateinit var dwnButton: Button
-//    var ytList = ArrayList<VideoItem>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -72,24 +66,17 @@ class PlayerActivity : AppCompatActivity() , YouTubePlayerListener{
         lifecycle.addObserver(youtubePlayerView)
 
         dwnButton.setOnClickListener {
-//            var dlgBuilder = AlertDialog.Builder(this)
-//
-//            dlgBuilder.setTitle(R.string.dialogTitle)
-//            dlgBuilder.setMessage(R.string.dialogMessage)
-//            dlgBuilder.setIcon(R.drawable.baseline_check_circle_24)
-            Toast.makeText(this@PlayerActivity, "clicked yes", Toast.LENGTH_SHORT).show()
 
-            val sharePreferences = getSharedPreferences("MY_LIST_DATA", Context.MODE_PRIVATE)
-//                ?: return
-//            with(sharePreferences.edit()) {
-//                putString(getString("VIDEO_DATA"), DownloadAdapter)
-//                apply()
-//            }
-//            fun onClick(view: View) {
-//                Gson gson = new Gson()
-//            }
+            MainApplication.downloadList.add(videoData)
 
-
+            var gson = Gson()
+            var jsonString = gson.toJson(MainApplication.downloadList)
+            val editor = MainApplication.sharePreference?.edit()
+            editor?.putString("dwn_videos", jsonString)
+            editor?.commit()
+            val json = MainApplication.sharePreference!!.getString("dwn_videos", "[]")
+            println("DWN VIDEOS : " + json)
+            Toast.makeText(this@PlayerActivity, "click and saved video on shared", Toast.LENGTH_SHORT).show()
         }
 
         recyclerView = findViewById(com.example.mytab.R.id.sub_yt_recycler_view)
@@ -98,31 +85,28 @@ class PlayerActivity : AppCompatActivity() , YouTubePlayerListener{
         recyclerView.setHasFixedSize(true)
         recyclerView.layoutManager = LinearLayoutManager(this)
 
-        adapter = YoutubeAdapter(ytList, object : YoutubeListener{
-            override fun clickAtPosition(position: Int, data: VideoItem) {
+        adapter = YoutubeAdapter(ytList , this)
 
-                videoData = data
-                youTubePlayer!!.loadVideo(videoData.id!!.videoId!!,0F)
+//        adapter = YoutubeAdapter(ytList, object : YoutubeListener{
+//            override fun clickAtPosition(position: Int, data: VideoItem) {
+//
 
-                println("videoIDD"  + "Data-> " + data)
-
-            }
-        })
-
+//
+//            }
+//
+//            override fun clickAtPlaylistPosition(position: Int, data: SongItem) {
+//                TODO("Not yet implemented")
+//            }
+//        })
 
         recyclerView.adapter = adapter
 
         val bundle:Bundle? = intent.extras
         videoData = bundle!!.getSerializable(VIDEO_DATA) as VideoItem
         val key = bundle!!.getString("KEY")
-        println("Player dataIDD" + videoData)
 
         youtubePlayerView.addYouTubePlayerListener(this)
 
-
-//        val bundle:Bundle? = intent.extras
-//        searchData = bundle!!.getSerializable(MainApplication.SINGER_NAME) as SearchData
-//
         service.getAllVideos("AIzaSyBji_w43hXD4qOPYxxP18IWa-DzdMHbuDk", videoData.snippet!!.title!!, "video", "snippet").enqueue(object :
             Callback<ApiResponse> {
             override fun onResponse(call: Call<ApiResponse>, response: Response<ApiResponse>) {
@@ -130,8 +114,6 @@ class PlayerActivity : AppCompatActivity() , YouTubePlayerListener{
 //                try {
                     ytList.addAll(response.body()!!.itemsArray!!)
                     adapter!!.notifyDataSetChanged()
-                    println("nemeltList" + ytList)
-
 //                } catch (e: Exception) {
 //                    println("ExceptionDD" + e)
 //                }
@@ -139,11 +121,9 @@ class PlayerActivity : AppCompatActivity() , YouTubePlayerListener{
 
             override fun onFailure(call: Call<ApiResponse>, t: Throwable) {
                 println("XOXO 3")
-
             }
+
         })
-
-
 
     }
 
@@ -161,6 +141,14 @@ class PlayerActivity : AppCompatActivity() , YouTubePlayerListener{
         youTubePlayer: YouTubePlayer,
         playbackQuality: PlayerConstants.PlaybackQuality
     ) {
+    }
+
+    override fun clickAtPosition(position: Int, data: VideoItem) {
+        super.clickAtPosition(position, data)
+
+        videoData = data
+        youTubePlayer!!.loadVideo(videoData.id!!.videoId!!,0F)
+
     }
 
     override fun onPlaybackRateChange(

@@ -30,10 +30,17 @@
 
         <Button
             android:id="@+id/download_btn"
-            android:layout_width="160dp"
+            android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:text="Download video"
              />
+
+        <Button
+            android:id="@+id/add_playl_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="Add Playlist"
+            />
 
     </LinearLayout>
 

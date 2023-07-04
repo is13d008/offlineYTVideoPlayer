@@ -4,15 +4,14 @@ import android.content.ContentValues
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
-import androidx.appcompat.app.AppCompatActivity
 import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.mytab.MainApplication.Companion.SINGER_NAME
 import com.example.mytab.MainApplication.Companion.VIDEO_DATA
 import com.example.mytab.R
+import com.example.mytab.abstracts.AbstractActivity
 import com.example.mytab.adapter.YoutubeAdapter
-import com.example.mytab.interfaces.YoutubeListener
 import com.example.mytab.models.ApiResponse
 import com.example.mytab.models.SearchData
 import com.example.mytab.models.VideoItem
@@ -22,7 +21,7 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class YoutubeListActivity : AppCompatActivity() {
+class YoutubeListActivity : AbstractActivity() {
 
     lateinit var recyclerView: RecyclerView
     var ytList = ArrayList<VideoItem>()
@@ -54,22 +53,23 @@ class YoutubeListActivity : AppCompatActivity() {
 //                startActivity(intent)
 //        }
 
+        adapter = YoutubeAdapter(ytList , this)
 
 
-        adapter = YoutubeAdapter(ytList, object : YoutubeListener{
-            override fun clickAtPosition(position: Int, data: VideoItem) {
-
-                println("videoIDD"  + "Data-> " + data)
-
-                val intent = Intent(this@YoutubeListActivity, PlayerActivity::class.java)
-                val bundle = Bundle()
-                bundle.putSerializable(VIDEO_DATA,data)
-                bundle.putString("KEY","qwerty")
-                intent.putExtras(bundle)
-                startActivity(intent)
-
-            }
-        })
+//        adapter = YoutubeAdapter(ytList, object : YoutubeListener{
+//            override fun clickAtPosition(position: Int, data: VideoItem) {
+//
+//                println("videoIDD"  + "Data-> " + data)
+//
+//                val intent = Intent(this@YoutubeListActivity, PlayerActivity::class.java)
+//                val bundle = Bundle()
+//                bundle.putSerializable(VIDEO_DATA,data)
+//                bundle.putString("KEY","qwerty")
+//                intent.putExtras(bundle)
+//                startActivity(intent)
+//
+//            }
+//        })
 
 
         recyclerView.adapter = adapter
@@ -94,6 +94,18 @@ class YoutubeListActivity : AppCompatActivity() {
 //                _isLoading.value = false
             }
         })
+
+    }
+
+    override fun clickAtPosition(position: Int, data: VideoItem) {
+        super.clickAtPosition(position, data)
+
+        val intent = Intent(this@YoutubeListActivity, PlayerActivity::class.java)
+        val bundle = Bundle()
+        bundle.putSerializable(VIDEO_DATA,data)
+        bundle.putString("KEY","qwerty")
+        intent.putExtras(bundle)
+        startActivity(intent)
 
     }
 }

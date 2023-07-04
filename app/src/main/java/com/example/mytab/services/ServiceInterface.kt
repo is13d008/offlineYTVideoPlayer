@@ -1,6 +1,7 @@
 package com.example.mytab.services
 
 import com.example.mytab.models.ApiResponse
+import com.example.mytab.models.PlaylistData
 import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Headers
@@ -24,5 +25,14 @@ interface ServiceInterface {
         @Query("ds") type : String,
         @Query("q") q : String,
     ): Call<Any>
+
+    @Headers("Content-Type:application/json")
+    @GET("https://youtube.googleapis.com/youtube/v3/playlists")
+    fun getAllPlaylists(
+        @Query("part") part: String,
+        @Query("channelId") channelId: String,
+        @Query("maxResults") maxResults: Int,
+        @Query("key") key: String,
+    ): Call<PlaylistData>
 
 }
