@@ -4,9 +4,13 @@ package com.example.mytab.tabs
 import android.content.ContentValues
 import android.os.Bundle
 import android.util.Log
+import android.view.LayoutInflater
 import android.view.Window
 import android.view.WindowManager
 import android.widget.Button
+import android.widget.EditText
+import android.widget.Spinner
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -29,6 +33,8 @@ import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTube
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.text.SimpleDateFormat
+import java.util.Date
 
 class PlayerActivity : AbstractActivity() , YouTubePlayerListener{
 
@@ -40,6 +46,13 @@ class PlayerActivity : AbstractActivity() , YouTubePlayerListener{
     var ytList = ArrayList<VideoItem>()
     var youTubePlayer : YouTubePlayer? = null
     lateinit var dwnButton: Button
+    lateinit var playlistButton: Button
+    lateinit var title: TextView
+    val currentDate = Date()
+
+    val dateFormat = SimpleDateFormat("yyyy-MM-dd")
+    val formatDate = dateFormat.format(currentDate)
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -54,9 +67,11 @@ class PlayerActivity : AbstractActivity() , YouTubePlayerListener{
         setContentView(com.example.mytab.R.layout.youtube_player)
         youtubePlayerView = findViewById(com.example.mytab.R.id.youTubePlayerView)
 
+        dwnButton = findViewById(R.id.download_btn)
+        playlistButton = findViewById(R.id.add_playl_btn)
+
         Log.d(ContentValues.TAG, "onCreateView: video list on the player");
 
-        dwnButton = findViewById(R.id.download_btn)
 
         // screen for our youtube player view.
 //        youtubePlayerView.enterFullScreen()
@@ -76,7 +91,26 @@ class PlayerActivity : AbstractActivity() , YouTubePlayerListener{
             editor?.commit()
             val json = MainApplication.sharePreference!!.getString("dwn_videos", "[]")
             println("DWN VIDEOS : " + json)
-            Toast.makeText(this@PlayerActivity, "click and saved video on shared", Toast.LENGTH_SHORT).show()
+//            Toast.makeText(this@PlayerActivity, "click and saved video on shared", Toast.LENGTH_SHORT).show()
+        }
+
+        playlistButton.setOnClickListener {
+
+            MainApplication.playList.add(videoData)
+            println("we have a playlistDDDD")
+//            showPlaylistDialog()
+
+            var gson = Gson()
+            var jsonString = gson.toJson(MainApplication.playList)
+            val editorPlay = MainApplication.playSharePreference?.edit()
+            editorPlay?.putString("playlistName", "TESTPLAY")
+            editorPlay?.putString("playlistCreateDate", formatDate)
+            editorPlay?.putString("songs", jsonString)
+            editorPlay?.commit()
+            val jsonSong = MainApplication.playSharePreference?.getString("songs", "[]")
+            println("created songs list at playlistOOOO" + jsonSong)
+            Toast.makeText(this@PlayerActivity, "click and saved video on playlist shared", Toast.LENGTH_SHORT).show()
+
         }
 
         recyclerView = findViewById(com.example.mytab.R.id.sub_yt_recycler_view)
@@ -127,6 +161,35 @@ class PlayerActivity : AbstractActivity() , YouTubePlayerListener{
 
     }
 
+
+    public fun showPlaylistDialog(){
+
+
+        println("it is showPlaylistDialogoo")
+
+        val builder = AlertDialog.Builder(this)
+        val inflater = layoutInflater
+        val dialogLayout = inflater.inflate(R.layout.dialog_layout, null)
+        val editText = dialogLayout.findViewById<EditText>(R.id.playlist_title)
+        val spinner = dialogLayout.findViewById<Spinner>(R.id.spinner_playlist_titles)
+
+        with(builder) {
+            setTitle("New playlist title")
+            setPositiveButton("Create"){ dialog, which ->
+//                title.text = editText.text.toString()
+
+//                MainApplication.playList.add(videoData)
+
+
+            }
+
+            setNegativeButton("Cancel"){ dialog, which ->
+                Log.d("Main", "Negative button clicked")
+            }
+            setView(dialogLayout)
+            show()
+        }
+    }
 
     override fun onApiChange(youTubePlayer: YouTubePlayer) {
     }

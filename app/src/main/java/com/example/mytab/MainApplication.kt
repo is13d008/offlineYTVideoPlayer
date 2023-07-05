@@ -21,7 +21,9 @@ class MainApplication : Application() {
         val VIDEO_DATA = "items"
 
         var downloadList = ArrayList<VideoItem>()
+        var playList = ArrayList<VideoItem>()
         var sharePreference: SharedPreferences? = null
+        var playSharePreference: SharedPreferences? = null
     }
 
     override fun onCreate() {
@@ -32,6 +34,7 @@ class MainApplication : Application() {
 
 
         sharePreference = getSharedPreferences( getPackageName() + "MY_DOWN_VIDEO", Context.MODE_PRIVATE);
+        playSharePreference = getSharedPreferences( getPackageName() + "MY_PLAYLISTS", Context.MODE_PRIVATE);
 
         val client = OkHttpClient.Builder()
             .addInterceptor(logging)
