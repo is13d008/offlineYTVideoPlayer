@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:maxHeight="300dp"
+    android:id="@+id/dialog_linear">
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/create_plist_btn"
+        android:text="+ New playlist" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/playlistLinear"
+        android:orientation="vertical">
+
+
+
+    </LinearLayout>
+
+<!--    <Spinner-->
+<!--        android:id="@+id/spinner_playlist_titles"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="150dp"-->
+<!--       android:spinnerMode="dialog"-->
+<!--        android:layout_marginTop="20dp"/>-->
+<!--    -->
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/done_btn"
+        android:text="Done" />
+
+</LinearLayout>

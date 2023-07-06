@@ -6,7 +6,6 @@ import com.example.mytab.models.VideoItem
 
 interface YoutubeListener {
 
-    fun clickAtPosition(position: Int, data: VideoItem)
+    fun clickAtPosition(position: Int, data: Any)
 
-    fun clickAtPlaylistPosition(position: Int, data: SongItem)
 }

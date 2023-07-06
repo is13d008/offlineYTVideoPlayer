@@ -9,7 +9,8 @@ import android.widget.Toast
 import androidx.appcompat.widget.SearchView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.mytab.MainApplication.Companion.SINGER_NAME
+import com.example.mytab.MainApplication
+import com.example.mytab.MainApplication.Companion.LIST_TYPE_SONGS
 import com.example.mytab.R
 import com.example.mytab.abstracts.AbstractListFragment
 import com.example.mytab.adapter.SearchAdapter
@@ -47,7 +48,9 @@ class SearchFragment : AbstractListFragment() {
             override fun clickAtPosition(position: Int, data: SearchData) {
 
                 val intent = Intent(requireActivity(), YoutubeListActivity::class.java)
-                intent.putExtra(SINGER_NAME, data)
+                intent.putExtra(MainApplication.VIDEO_DATA, data)
+                intent.putExtra("LIST_TYPE",MainApplication.LIST_TYPE_SONGS)
+//                intent.putExtra()
                 startActivity(intent)
 
             }

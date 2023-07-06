@@ -39,7 +39,7 @@ class CreatePlaylistActivity : AbstractActivity() {
 
         recyclerView.layoutManager = LinearLayoutManager(this)
 
-        adapter = PlaylistAdapter(songList , this)
+//        adapter = PlaylistAdapter(songList , this)
 
 //        adapter = PlaylistAdapter(songList, object: YoutubeListener {
 //            override fun clickAtPosition(position: Int, data: VideoItem) {
@@ -79,8 +79,4 @@ class CreatePlaylistActivity : AbstractActivity() {
 
     }
 
-    override fun clickAtPlaylistPosition(position: Int, data: SongItem) {
-        super.clickAtPlaylistPosition(position, data)
-
-    }
 }

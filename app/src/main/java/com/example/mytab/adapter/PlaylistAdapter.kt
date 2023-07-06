@@ -8,26 +8,28 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.mytab.R
 import com.example.mytab.interfaces.YoutubeListener
+import com.example.mytab.models.PlaylistItem
 import com.example.mytab.models.SongItem
 import com.squareup.picasso.Picasso
 
-class PlaylistAdapter(var songList: List<SongItem>, val listener: YoutubeListener) : RecyclerView.Adapter<PlaylistAdapter.SongViewHolder<SongItem>>() {
+class PlaylistAdapter(var songList: List<PlaylistItem>, val listener: YoutubeListener) : RecyclerView.Adapter<PlaylistAdapter.SongViewHolder<PlaylistItem>>() {
 
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SongViewHolder<SongItem> {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SongViewHolder<PlaylistItem> {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.select_video_item, parent, false)
         return SongViewHolder(view)
     }
 
-    override fun onBindViewHolder(holder: SongViewHolder<SongItem>, position: Int) {
-        Picasso.get().load(songList.get(position).snippet!!.thumbnails!!.standard!!.url!!).into(holder.imageItem)
-        holder.textItem.setText(songList.get(position).snippet!!.title!!)
-        holder.descItem.setText(songList.get(position).snippet!!.description!!)
-        holder.dateItem.setText(songList.get(position).snippet!!.publishedAt!!)
+    override fun onBindViewHolder(holder: SongViewHolder<PlaylistItem>, position: Int) {
+//        Picasso.get().load(songList.get(position).snippet!!.thumbnails!!.standard!!.url!!).into(holder.imageItem)
+        holder.textItem.setText(songList.get(position).playlistName)
+        holder.descItem.setText(songList.get(position).songs.size.toString() + " duutai")
+        holder.dateItem.setText(songList.get(position).playlistDate)
 
         holder.itemView.setOnClickListener {
-            listener.clickAtPlaylistPosition(position, songList[position])
-//            println("SetOnClickListener deerh damjij bui utguud" + ytList[position] + position)
+
+            listener.clickAtPosition(position, songList.get(position))
+
         }
     }
 

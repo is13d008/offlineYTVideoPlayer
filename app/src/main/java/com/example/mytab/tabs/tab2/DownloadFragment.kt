@@ -36,19 +36,6 @@ class DownloadFragment : AbstractListFragment() {
 
         adapter = YoutubeAdapter(MainApplication.Companion.downloadList, this)
 
-//        adapter = YoutubeAdapter(MainApplication.downloadList, object : YoutubeListener {
-//            override fun clickAtPosition(position: Int, data: VideoItem) {
-//
-//                val intent = Intent(requireContext(), PlayerActivity::class.java)
-//                val bundle = Bundle()
-//                bundle.putSerializable(MainApplication.VIDEO_DATA,data)
-//                bundle.putString("KEY","qwerty")
-//                intent.putExtras(bundle)
-//                startActivity(intent)
-//
-//            }
-//        })
-
         recyclerView. adapter = adapter
 
         val sharePreferences = activity?.getSharedPreferences("MY_LIST_DATA", Context.MODE_PRIVATE)
@@ -61,12 +48,12 @@ class DownloadFragment : AbstractListFragment() {
         adapter.notifyDataSetChanged()
     }
 
-        override fun clickAtPosition(position: Int, data: VideoItem) {
+        override fun clickAtPosition(position: Int, data: Any) {
             super.clickAtPosition(position, data)
 
             val intent = Intent(requireContext(), PlayerActivity::class.java)
             val bundle = Bundle()
-            bundle.putSerializable(MainApplication.VIDEO_DATA,data)
+            bundle.putSerializable(MainApplication.VIDEO_DATA,data as VideoItem)
             bundle.putString("KEY","qwerty")
             intent.putExtras(bundle)
             startActivity(intent)

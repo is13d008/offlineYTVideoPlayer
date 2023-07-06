@@ -4,12 +4,12 @@ package com.example.mytab.tabs
 import android.content.ContentValues
 import android.os.Bundle
 import android.util.Log
-import android.view.LayoutInflater
+import android.view.View
 import android.view.Window
 import android.view.WindowManager
 import android.widget.Button
-import android.widget.EditText
-import android.widget.Spinner
+import android.widget.CheckBox
+import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
@@ -25,6 +25,7 @@ import com.example.mytab.models.SearchData
 import com.example.mytab.models.VideoItem
 import com.example.mytab.retrofitYTList
 import com.example.mytab.services.ServiceInterface
+import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.gson.Gson
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.PlayerConstants
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer
@@ -33,8 +34,8 @@ import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTube
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import java.text.SimpleDateFormat
 import java.util.Date
+
 
 class PlayerActivity : AbstractActivity() , YouTubePlayerListener{
 
@@ -49,10 +50,7 @@ class PlayerActivity : AbstractActivity() , YouTubePlayerListener{
     lateinit var playlistButton: Button
     lateinit var title: TextView
     val currentDate = Date()
-
-    val dateFormat = SimpleDateFormat("yyyy-MM-dd")
-    val formatDate = dateFormat.format(currentDate)
-
+    var gson = Gson()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -95,43 +93,16 @@ class PlayerActivity : AbstractActivity() , YouTubePlayerListener{
         }
 
         playlistButton.setOnClickListener {
-
-            MainApplication.playList.add(videoData)
-            println("we have a playlistDDDD")
-//            showPlaylistDialog()
-
-            var gson = Gson()
-            var jsonString = gson.toJson(MainApplication.playList)
-            val editorPlay = MainApplication.playSharePreference?.edit()
-            editorPlay?.putString("playlistName", "TESTPLAY")
-            editorPlay?.putString("playlistCreateDate", formatDate)
-            editorPlay?.putString("songs", jsonString)
-            editorPlay?.commit()
-            val jsonSong = MainApplication.playSharePreference?.getString("songs", "[]")
-            println("created songs list at playlistOOOO" + jsonSong)
-            Toast.makeText(this@PlayerActivity, "click and saved video on playlist shared", Toast.LENGTH_SHORT).show()
-
+            showPlaylistDialog()
         }
 
         recyclerView = findViewById(com.example.mytab.R.id.sub_yt_recycler_view)
-        Log.d(ContentValues.TAG, "onCreateView: started videoPlayer ");
+//        Log.d(ContentValues.TAG, "onCreateView: started videoPlayer ");
         val service = retrofitYTList.create(ServiceInterface::class.java)
         recyclerView.setHasFixedSize(true)
         recyclerView.layoutManager = LinearLayoutManager(this)
 
         adapter = YoutubeAdapter(ytList , this)
-
-//        adapter = YoutubeAdapter(ytList, object : YoutubeListener{
-//            override fun clickAtPosition(position: Int, data: VideoItem) {
-//
-
-//
-//            }
-//
-//            override fun clickAtPlaylistPosition(position: Int, data: SongItem) {
-//                TODO("Not yet implemented")
-//            }
-//        })
 
         recyclerView.adapter = adapter
 
@@ -144,13 +115,8 @@ class PlayerActivity : AbstractActivity() , YouTubePlayerListener{
         service.getAllVideos("AIzaSyBji_w43hXD4qOPYxxP18IWa-DzdMHbuDk", videoData.snippet!!.title!!, "video", "snippet").enqueue(object :
             Callback<ApiResponse> {
             override fun onResponse(call: Call<ApiResponse>, response: Response<ApiResponse>) {
-//                println(" YoutubeListActivity XOXO 3 with player")
-//                try {
                     ytList.addAll(response.body()!!.itemsArray!!)
                     adapter!!.notifyDataSetChanged()
-//                } catch (e: Exception) {
-//                    println("ExceptionDD" + e)
-//                }
             }
 
             override fun onFailure(call: Call<ApiResponse>, t: Throwable) {
@@ -164,31 +130,70 @@ class PlayerActivity : AbstractActivity() , YouTubePlayerListener{
 
     public fun showPlaylistDialog(){
 
+        val dialog = BottomSheetDialog(this)
 
-        println("it is showPlaylistDialogoo")
+        // on below line we are inflating a layout file which we have created.
+        val view = layoutInflater.inflate(R.layout.choose_dialog_layout, null)
+        var playlistLinear : LinearLayout
 
-        val builder = AlertDialog.Builder(this)
-        val inflater = layoutInflater
-        val dialogLayout = inflater.inflate(R.layout.dialog_layout, null)
-        val editText = dialogLayout.findViewById<EditText>(R.id.playlist_title)
-        val spinner = dialogLayout.findViewById<Spinner>(R.id.spinner_playlist_titles)
+        playlistLinear = view.findViewById(R.id.playlistLinear)
 
-        with(builder) {
-            setTitle("New playlist title")
-            setPositiveButton("Create"){ dialog, which ->
-//                title.text = editText.text.toString()
+        for(playlist in MainApplication.playList){
+            val v: View = layoutInflater.inflate(R.layout.cell_playlist, null)
 
-//                MainApplication.playList.add(videoData)
+            val checkBox : CheckBox = v.findViewById(R.id.checkbox)
+            val textView : TextView = v.findViewById(R.id.textview)
 
+            textView.text = playlist.playlistName
+            playlistLinear.addView(v)
 
-            }
+            v.setOnClickListener(View.OnClickListener {
 
-            setNegativeButton("Cancel"){ dialog, which ->
-                Log.d("Main", "Negative button clicked")
-            }
-            setView(dialogLayout)
-            show()
+                checkBox.isChecked = !checkBox.isChecked
+                playlist.isChecked = checkBox.isChecked
+
+            })
+
         }
+
+        val btnDone = view.findViewById<Button>(R.id.done_btn)
+        btnDone.setOnClickListener {
+
+            var isPlaylistChecked : Boolean = false
+            for(playlist in MainApplication.playList) {
+                println("IS CHECKED : " + playlist.isChecked)
+                if (playlist.isChecked)isPlaylistChecked = true
+            }
+
+            if (isPlaylistChecked){
+                for(playlist in MainApplication.playList) {
+
+                    if (playlist.isChecked) {
+
+                        playlist.songs.add(videoData)
+
+                        var jsonString = gson.toJson(MainApplication.playList)
+                        val editorPlay = MainApplication.playSharePreference?.edit()
+                        editorPlay?.putString("PLAYLIST_DATA", jsonString)
+                        editorPlay?.commit()
+
+                    }
+                }
+
+                Toast.makeText(this@PlayerActivity, "Succesfully added to Playlist!!!", Toast.LENGTH_SHORT).show()
+                dialog.dismiss()
+
+            } else {
+
+                Toast.makeText(this@PlayerActivity, "Please choose playlist first!!!", Toast.LENGTH_SHORT).show()
+
+            }
+
+        }
+        dialog.setCancelable(true)
+        dialog.setContentView(view)
+        dialog.show()
+
     }
 
     override fun onApiChange(youTubePlayer: YouTubePlayer) {
@@ -206,25 +211,20 @@ class PlayerActivity : AbstractActivity() , YouTubePlayerListener{
     ) {
     }
 
-    override fun clickAtPosition(position: Int, data: VideoItem) {
+    override fun clickAtPosition(position: Int, data: Any) {
         super.clickAtPosition(position, data)
 
-        videoData = data
+        videoData = data as VideoItem
         youTubePlayer!!.loadVideo(videoData.id!!.videoId!!,0F)
 
     }
 
-    override fun onPlaybackRateChange(
-        youTubePlayer: YouTubePlayer,
-        playbackRate: PlayerConstants.PlaybackRate
-    ) {
+    override fun onPlaybackRateChange(youTubePlayer: YouTubePlayer, playbackRate: PlayerConstants.PlaybackRate) {
     }
 
     override fun onReady(youTubePlayer: YouTubePlayer) {
-
         this.youTubePlayer = youTubePlayer
         this.youTubePlayer!!.loadVideo(videoData.id!!.videoId!!,0F)
-
     }
 
     override fun onStateChange(youTubePlayer: YouTubePlayer, state: PlayerConstants.PlayerState) {

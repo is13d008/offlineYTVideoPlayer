@@ -10,10 +10,8 @@ abstract class AbstractFragment : Fragment(), YoutubeListener {
 
     lateinit var mainView : View
 
-    override fun clickAtPosition(position: Int, data: VideoItem) {
+    override fun clickAtPosition(position: Int, data: Any) {
 
     }
 
-    override fun clickAtPlaylistPosition(position: Int, data: SongItem) {
-    }
 }

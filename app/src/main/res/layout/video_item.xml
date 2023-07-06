@@ -17,7 +17,7 @@
         android:weightSum="100"
         android:orientation="horizontal">
 
-        n  <ImageView
+        <ImageView
             android:id="@+id/song_image"
             android:layout_width="0dp"
             android:layout_height="200dp"

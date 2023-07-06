@@ -3,6 +3,7 @@ package com.example.mytab
 import android.app.Application
 import android.content.Context
 import android.content.SharedPreferences
+import com.example.mytab.models.PlaylistItem
 import com.example.mytab.models.VideoItem
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -17,11 +18,16 @@ class MainApplication : Application() {
         var retrofit : Retrofit? = null
         var retrofitYTList : Retrofit? = null
 
-        val SINGER_NAME = "searchName"
         val VIDEO_DATA = "items"
 
+        val LIST_TYPE_SONGS = "songs"
+        val LIST_TYPE_PLAYLIST = "playlist"
+
+        val PLAYLIST_DATA = "playlistItems"
+
+
         var downloadList = ArrayList<VideoItem>()
-        var playList = ArrayList<VideoItem>()
+        var playList = ArrayList<PlaylistItem>()
         var sharePreference: SharedPreferences? = null
         var playSharePreference: SharedPreferences? = null
     }

@@ -6,12 +6,8 @@ import com.example.mytab.models.SongItem
 import com.example.mytab.models.VideoItem
 
 open class AbstractActivity : AppCompatActivity() , YoutubeListener{
-    override fun clickAtPosition(position: Int, data: VideoItem) {
+    override fun clickAtPosition(position: Int, data: Any) {
 
     }
-
-    override fun clickAtPlaylistPosition(position: Int, data: SongItem) {
-    }
-
 
 }

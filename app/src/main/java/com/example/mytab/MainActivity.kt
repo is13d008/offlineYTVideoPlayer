@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.viewpager.widget.ViewPager
 import com.example.mytab.abstracts.AbstractActivity
 import com.example.mytab.adapter.FragmentAdapter
+import com.example.mytab.models.PlaylistItem
 import com.example.mytab.models.VideoItem
 import com.google.android.material.tabs.TabLayout
 import com.google.gson.Gson
@@ -21,10 +22,14 @@ class MainActivity : AbstractActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        val json = MainApplication.sharePreference!!.getString("dwn_videos", "[]")
+        val downloadJSON = MainApplication.sharePreference!!.getString("dwn_videos", "[]")
+        val playlistJSON = MainApplication.playSharePreference!!.getString("PLAYLIST_DATA", "[]")
 
-        val myType = object : TypeToken<ArrayList<VideoItem>>() {}.type
-        MainApplication.downloadList = Gson().fromJson(json, myType)
+        val downloadType = object : TypeToken<ArrayList<VideoItem>>() {}.type
+        val playlistType = object : TypeToken<ArrayList<PlaylistItem>>() {}.type
+
+        MainApplication.downloadList = Gson().fromJson(downloadJSON, downloadType)
+        MainApplication.playList = Gson().fromJson(playlistJSON, playlistType)
 
         tabLayout = findViewById(R.id.tabLayout)
         viewPager = findViewById(R.id.viewPager)

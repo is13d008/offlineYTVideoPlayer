@@ -13,12 +13,4 @@
         android:layout_marginTop="20dp"
         android:hint="Title" />
 
-    <Spinner
-        android:id="@+id/spinner_playlist_titles"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:spinnerMode="dialog"
-        android:layout_marginTop="20dp"/>
-
-
 </LinearLayout>
